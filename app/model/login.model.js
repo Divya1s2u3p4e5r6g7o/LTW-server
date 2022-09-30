@@ -1,10 +1,10 @@
 function logins (logins) {
     return {
-        loginid : logins.loginid,
+        emailid: logins.emailid,
         password : logins.password,
         temp_password : logins.password,
-        username: logins.username,
-        status: logins.status
+       
+       
     }  
 }
 

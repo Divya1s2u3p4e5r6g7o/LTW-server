@@ -14,7 +14,7 @@ exports.registration = async (req, res) => {
 
         /* intializing the token and password to the session*/
         data.password = encryptedPassword;
-        data.status = "ACTIVE"
+       
 
         db.query('insert into tbl_login set ?', data, function (err, records, fields) {
             if (err) {
@@ -35,7 +35,7 @@ exports.registration = async (req, res) => {
 
 exports.verifyUser = async (req, res) => {
     try {
-        await db.query("select password,loginid,username from tbl_login where username = '" + req.body.username + "' and status = 'ACTIVE';", async function (err, records, fields) {
+        await db.query("select password,emailid from tbl_login where emailid = '" + req.body.emailid + "' ", async function (err, records, fields) {
             if (err) {
                 throw err;
             } else {
@@ -43,7 +43,7 @@ exports.verifyUser = async (req, res) => {
                     const comparedPassword = await bcrypt.compare(req.body.password, records[0].password);
 
                     /* for sigigning throw the jwt token*/
-                    const token = jwt.sign({ userId: records[0].loginid, userName: records[0].username }, process.env.TOKEN_KEY, {
+                    const token = jwt.sign({  emailId: records[0].emailid }, process.env.TOKEN_KEY, {
                         expiresIn: "1h",
                     })
 
